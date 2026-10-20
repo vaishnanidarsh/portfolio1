@@ -1,4 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
+import blackHeadImg from '../assets/images/2.png';
+import greenHeadImg from '../assets/images/1.png';
+import { getAssetUrl } from '../utils/assetHelper';
 import { makeTransparent } from '../utils/transparentImage';
 
 interface HeroSectionProps {
@@ -20,12 +23,12 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   const [isHovered, setIsHovered] = useState(false);
   const headContainerRef = useRef<HTMLDivElement>(null);
 
-  const [blackHeadSrc, setBlackHeadSrc] = useState<string>('/assets/2.png');
-  const [greenHeadSrc, setGreenHeadSrc] = useState<string>('/assets/1.png');
+  const [blackHeadSrc, setBlackHeadSrc] = useState<string>(blackHeadImg);
+  const [greenHeadSrc, setGreenHeadSrc] = useState<string>(greenHeadImg);
 
   useEffect(() => {
-    makeTransparent('/assets/2.png').then(setBlackHeadSrc);
-    makeTransparent('/assets/1.png').then(setGreenHeadSrc);
+    makeTransparent(blackHeadImg).then(setBlackHeadSrc);
+    makeTransparent(greenHeadImg).then(setGreenHeadSrc);
   }, []);
 
   const handlePointerMove = (e: React.PointerEvent) => {
@@ -131,6 +134,16 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                   alt="Green Core Bio Head"
                   className="w-full h-full object-contain filter drop-shadow-[0_20px_40px_rgba(163,230,53,0.4)]"
                   draggable={false}
+                  loading="eager"
+                  decoding="async"
+                  onError={() => {
+                    const fallback = getAssetUrl('assets/1.png');
+                    if (greenHeadSrc !== fallback) {
+                      setGreenHeadSrc(fallback);
+                    } else {
+                      setGreenHeadSrc(getAssetUrl('1.png'));
+                    }
+                  }}
                 />
               </div>
               {/* Black packaged head with radial reveal on hover */}
@@ -150,6 +163,16 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                   alt="Vacuum-Sealed Packaged Head"
                   className="w-full h-full object-contain filter drop-shadow-[0_25px_50px_rgba(0,0,0,0.98)]"
                   draggable={false}
+                  loading="eager"
+                  decoding="async"
+                  onError={() => {
+                    const fallback = getAssetUrl('assets/2.png');
+                    if (blackHeadSrc !== fallback) {
+                      setBlackHeadSrc(fallback);
+                    } else {
+                      setBlackHeadSrc(getAssetUrl('2.png'));
+                    }
+                  }}
                 />
               </div>
             </div>

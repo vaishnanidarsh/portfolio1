@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import portraitImg from '../assets/images/myimage.png';
+import { getAssetUrl } from '../utils/assetHelper';
 
 interface CapabilityRow {
   num: string;
@@ -114,7 +115,6 @@ export const AboutExpertiseSection: React.FC = () => {
                 <span>FIG. 26-A</span>
               </div>
 
-              {/* The Actual Portrait Photo */}
               <img
                 src={portraitImg}
                 alt="Darsh Vaishnani — Creative Technologist & Digital Designer"
@@ -124,6 +124,16 @@ export const AboutExpertiseSection: React.FC = () => {
                     : 'scale-100 contrast-100 brightness-95 grayscale-[15%]'
                 }`}
                 loading="eager"
+                decoding="async"
+                onError={(e) => {
+                  const target = e.currentTarget;
+                  const fallback = getAssetUrl('assets/myimage.png');
+                  if (target.src !== fallback) {
+                    target.src = fallback;
+                  } else {
+                    target.src = getAssetUrl('myimage.png');
+                  }
+                }}
               />
 
               {/* Atmospheric Gradient Vignette Overlay */}

@@ -1,4 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
+import leftHandImg from '../assets/images/lh.png';
+import rightHandImg from '../assets/images/rh.png';
+import { getAssetUrl } from '../utils/assetHelper';
 import { makeTransparent } from '../utils/transparentImage';
 
 export const HandsSection: React.FC = () => {
@@ -8,12 +11,12 @@ export const HandsSection: React.FC = () => {
   const glowRef = useRef<HTMLDivElement>(null);
 
   // Reliable image sources with fallbacks & background stripping
-  const [leftSource, setLeftSource] = useState<string>('/assets/lh.png');
-  const [rightSource, setRightSource] = useState<string>('/assets/rh.png');
+  const [leftSource, setLeftSource] = useState<string>(leftHandImg);
+  const [rightSource, setRightSource] = useState<string>(rightHandImg);
 
   useEffect(() => {
-    makeTransparent('/assets/lh.png').then(setLeftSource);
-    makeTransparent('/assets/rh.png').then(setRightSource);
+    makeTransparent(leftHandImg).then(setLeftSource);
+    makeTransparent(rightHandImg).then(setRightSource);
   }, []);
 
   // Smooth animation refs
@@ -107,6 +110,16 @@ export const HandsSection: React.FC = () => {
             alt="Left Hand (Human)"
             className="w-full h-full object-contain object-left scale-x-[-1] filter drop-shadow-[0_20px_40px_rgba(0,0,0,0.9)]"
             draggable={false}
+            loading="eager"
+            decoding="async"
+            onError={() => {
+              const fallback = getAssetUrl('assets/lh.png');
+              if (leftSource !== fallback) {
+                setLeftSource(fallback);
+              } else {
+                setLeftSource(getAssetUrl('lh.png'));
+              }
+            }}
           />
         </div>
 
@@ -146,6 +159,16 @@ export const HandsSection: React.FC = () => {
             alt="Right Hand (Cybernetic)"
             className="w-full h-full object-contain object-right filter drop-shadow-[0_20px_40px_rgba(0,0,0,0.9)]"
             draggable={false}
+            loading="eager"
+            decoding="async"
+            onError={() => {
+              const fallback = getAssetUrl('assets/rh.png');
+              if (rightSource !== fallback) {
+                setRightSource(fallback);
+              } else {
+                setRightSource(getAssetUrl('rh.png'));
+              }
+            }}
           />
         </div>
 

@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import SplitFlapText from './SplitFlapText';
+import headBlack from '../assets/images/2.png';
+import headGreen from '../assets/images/1.png';
+import handLeft from '../assets/images/lh.png';
+import handRight from '../assets/images/rh.png';
+import portraitImg from '../assets/images/myimage.png';
+import { preloadImage } from '../utils/assetHelper';
 
 interface LoadingScreenProps {
   onComplete?: () => void;
@@ -13,6 +19,13 @@ export const LoadingScreen: React.FC<LoadingScreenProps> = ({
   const [progress, setProgress] = useState(0);
   const [isExiting, setIsExiting] = useState(false);
   const [statusText, setStatusText] = useState('SYSTEM BOOT');
+
+  useEffect(() => {
+    // Proactively preload all key images during boot
+    [headBlack, headGreen, handLeft, handRight, portraitImg].forEach((src) => {
+      preloadImage(src);
+    });
+  }, []);
 
   useEffect(() => {
     const startTime = Date.now();

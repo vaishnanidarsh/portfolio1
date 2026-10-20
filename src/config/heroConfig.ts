@@ -1,3 +1,5 @@
+import { getAssetUrl } from '../utils/assetHelper';
+
 export const HERO_CONFIG = {
   // Reveal artwork physics
   REVEAL_RADIUS_DESKTOP: 220,
@@ -13,12 +15,12 @@ export const HERO_CONFIG = {
   HAND_START_OFFSET_VW: 125, // Initial offscreen position in vw (completely outside viewport)
   HAND_FINAL_GAP_PX: 28, // Near-touch gap between fingertips at 100% scroll
   
-  // Asset paths
+  // Asset paths with GitHub Pages base path support
   DEFAULT_ASSETS: {
-    image2: '/2.png', // Hero initial state (dark/black packaged head)
-    image1: '/1.png', // Reveal state (green organic packaged head)
-    leftHand: '/lh.png', // Adam's arm from left
-    rightHand: '/rh.png', // God's arm from right
+    image2: getAssetUrl('assets/2.png'), // Hero initial state (dark/black packaged head)
+    image1: getAssetUrl('assets/1.png'), // Reveal state (green organic packaged head)
+    leftHand: getAssetUrl('assets/lh.png'), // Adam's arm from left
+    rightHand: getAssetUrl('assets/rh.png'), // God's arm from right
   },
   
   // Editorial content
